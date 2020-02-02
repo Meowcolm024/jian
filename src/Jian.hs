@@ -10,6 +10,7 @@ data JianVal = Heading Int String
              | Raw String
              | Comment String
              | Image String String
+             | Link String String
              deriving (Show)
 
 toHead :: String -> Maybe JianVal
@@ -47,6 +48,14 @@ toImage x = if "【有圖者" `isPrefixOf` x && "來】" `isSuffixOf` x
     in  Just (Image name url)
   else Nothing
 
+toLink :: String -> Maybe JianVal
+toLink x = if "【有扉者" `isPrefixOf` x && "也】" `isSuffixOf` x
+  then
+    let name = tail $ (takeWhile (/= '」') . dropWhile (/= '「')) x
+        url  = (tail . tail) $ (takeWhile (/= '」') . dropWhile (/= '往')) x
+    in  Just (Link name url)
+  else Nothing
+
 isBlank :: String -> Maybe JianVal
 isBlank "" = Just $ Raw ""
 isBlank _  = Nothing
@@ -59,6 +68,7 @@ toJian x =
     <|> toQuote x
     <|> toComment x
     <|> toImage x
+    <|> toLink x
     <|> toRaw x
 
 toMD :: Maybe JianVal -> String
@@ -68,4 +78,5 @@ toMD (Just (OrdList h x   )) = show h ++ ". " ++ x
 toMD (Just (Quote   x     )) = if x then "<blockquote>" else "</blockquote>"
 toMD (Just (Comment x     )) = "<!--" ++ x ++ "-->"
 toMD (Just (Image name url)) = "![" ++ name ++ "](" ++ url ++ ")"
+toMD (Just (Link  name url)) = "[" ++ name ++ "](" ++ url ++ ")"
 toMD _                       = ""

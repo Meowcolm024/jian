@@ -6,7 +6,7 @@ And the code is poorly written :)
 
 ## Install
 
-1. Clone: `https://github.com/Meowcolm024/jian.git`
+1. Clone: `git clone https://github.com/Meowcolm024/jian.git`
 2. Build: `stack build`
 3. Run: `stack run [filename]`
 
@@ -101,11 +101,19 @@ Example:
 ![清明上河圖](zhangzeduan)
 ```
 
-## Ideas
-
 ### URL
 
-Coming :)
+Format should be strictly followed: `【有扉者「[name]」往「[url]」也】`
+
+**Notice**: You need to use spaces to separate image block and other text or simply put it in a new line.
+
+``` markdown
+【有扉者「Github」往「https://github.com」也】
+<!--Euqals to-->
+[Github](https://github.com)
+```
+
+## Ideas
 
 ### Code Block
 
