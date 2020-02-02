@@ -39,6 +39,14 @@ toQuote _    = Nothing
 toComment :: String -> Maybe JianVal
 toComment x = if "批：" `isPrefixOf` x then Just (Comment x) else Nothing
 
+toImage :: String -> Maybe JianVal
+toImage x = if "【有圖者" `isPrefixOf` x && "來】" `isSuffixOf` x
+  then
+    let name = tail $ (takeWhile (/= '」') . dropWhile (/= '「')) x
+        url  = (tail . tail) $ (takeWhile (/= '」') . dropWhile (/= '自')) x
+    in  Just (Image name url)
+  else Nothing
+
 isBlank :: String -> Maybe JianVal
 isBlank "" = Just $ Raw ""
 isBlank _  = Nothing
@@ -50,12 +58,14 @@ toJian x =
     <|> toOrdList x
     <|> toQuote x
     <|> toComment x
+    <|> toImage x
     <|> toRaw x
 
 toMD :: Maybe JianVal -> String
-toMD (Just (Raw x      )) = x
-toMD (Just (Heading h x)) = replicate h '#' ++ " " ++ x
-toMD (Just (OrdList h x)) = show h ++ ". " ++ x
-toMD (Just (Quote   x  )) = if x then "<blockquote>" else "</blockquote>"
-toMD (Just (Comment x  )) = "<!--" ++ x ++ "-->"
-toMD _                    = ""
+toMD (Just (Raw x         )) = x
+toMD (Just (Heading h x   )) = replicate h '#' ++ " " ++ x
+toMD (Just (OrdList h x   )) = show h ++ ". " ++ x
+toMD (Just (Quote   x     )) = if x then "<blockquote>" else "</blockquote>"
+toMD (Just (Comment x     )) = "<!--" ++ x ++ "-->"
+toMD (Just (Image name url)) = "![" ++ name ++ "](" ++ url ++ ")"
+toMD _                       = ""

@@ -86,16 +86,27 @@ Examples:
 <!--批：註釋也-->
 ```
 
-## Ideas
-
 ### Images
 
+Format should be strictly followed: `【有圖者「[name]」自「[url]」來】`
+
+**Notice**: You need to use spaces to separate image block and other text or simply put it in a new line.
+(check out the second image in example)
+
+Example:
+
 ``` markdown
-【有圖者‘清明上河圖’自‘zhangzeduan’來】
+【有圖者「清明上河圖」自「zhangzeduan」來】
 <!--Euqals to-->
 ![清明上河圖](zhangzeduan)
 ```
 
+## Ideas
+
 ### URL
 
 Coming :)
+
+### Code Block
+
+No idea :(
