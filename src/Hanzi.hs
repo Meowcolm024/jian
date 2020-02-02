@@ -25,3 +25,5 @@ shuziToInt x = sum $ map groupDigit $ sepBy x [] where
         let (left, s:right) = break (`elem` "十百千萬億") org
         in  sepBy right (acc ++ [left++[s]])
 
+isShuzi :: Char -> Bool
+isShuzi x = x `elem` "零一二三四五六七八九十百千萬億"

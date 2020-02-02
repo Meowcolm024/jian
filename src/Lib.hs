@@ -8,10 +8,10 @@ import           System.IO
 import           System.IO.Error
 import           Control.Exception
 import           System.Environment
-import Hanzi
+import           Jian
 
 someFunc :: IO ()
-someFunc = print $ shuziToInt "一百三十二"
+someFunc = print $ toJian "十一、滑稽者"
     -- getFile `catch` handler
 
 getFile :: IO ()
@@ -19,7 +19,7 @@ getFile = do
     (name : _) <- getArgs
     handle     <- openFile name ReadMode
     hSetEncoding handle utf8
-    contents   <- hGetContents handle
+    contents <- hGetContents handle
     writeFile (takeWhile (/= '.') name ++ ".md") "something"
     hClose handle
 
