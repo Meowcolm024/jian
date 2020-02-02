@@ -1,6 +1,6 @@
 # 箋 Jian
 
-A prototype of a Wen-yan Markup language concept.
+A prototype of a Wen-yan Markdown language concept.
 
 And the code is poorly written :)
 
@@ -41,7 +41,7 @@ Examples:
 
 《離騷篇》
 <!--Euqals to-->
-## 離騷篇
+### 離騷篇
 ```
 
 ### Blockquote
