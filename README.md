@@ -1,6 +1,6 @@
 # 箋 Jian
 
-A prototype of a Wen-yan Markdown language concept.
+A prototype of a Wenyan Markdown language concept.
 
 And the code is poorly written :)
 
@@ -18,7 +18,7 @@ And the code is poorly written :)
 
 ## Syntax
 
-Currently supported syntax:
+Currently supported syntax
 
 ### Titles
 
@@ -56,9 +56,7 @@ Example:
 」」
 <!--Euqals to-->
 <blockquote>
-
 長太息以掩涕兮，哀民生之多艱。
-
 </blockquote>
 ```
 
@@ -79,6 +77,8 @@ Examples:
 ```
 
 ### Comments
+
+**Notice**: There should be spaces in the comment line (otherwise it may not work...)
 
 ``` markdown
 批：註釋也
@@ -115,6 +115,14 @@ Format should be strictly followed: `【有扉者「[name]」往「[url]」也�
 
 ## Ideas
 
-### Code Block
+### Code Block & Code
+
+No idea :(
+
+### Bold & Italic
+
+No idea :(
+
+### Table
 
 No idea :(
