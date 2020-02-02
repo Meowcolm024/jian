@@ -3,19 +3,19 @@ module Hanzi where
 import           Data.List
 import qualified Data.Map                      as Map
 
-shuzi :: Map.Map Char Integer
+shuzi :: Map.Map Char Int
 shuzi = Map.fromList $ zip "零一二三四五六七八九十" [0 .. 10]
 
-wei :: Map.Map Char Integer
+wei :: Map.Map Char Int
 wei = Map.fromList $ zip "十百千萬億" [10, 100, 1000, 10000, 100000]
 
-shuziToInt :: String -> Integer
+shuziToInt :: String -> Int
 shuziToInt x = sum $ map groupDigit $ sepBy x [] where
-    groupDigit :: String -> Integer
+    groupDigit :: String -> Int
     groupDigit [x]    = fromJust (Map.lookup x shuzi)
     groupDigit [x, y] = fromJust (Map.lookup x shuzi) * fromJust (Map.lookup y wei)
     groupDigit _      = 0
-    fromJust :: Maybe Integer -> Integer
+    fromJust :: Maybe Int -> Int
     fromJust (Just i) = i
     fromJust Nothing  = 0
     sepBy :: String -> [String] -> [String]
