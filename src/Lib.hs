@@ -19,12 +19,13 @@ getFile = do
     handle     <- openFile name ReadMode
     hSetEncoding handle utf8
     contents <- hGetContents handle
-    writeFile (takeWhile (/= '.') name ++ ".md") $ unlines
-        $ map unwords
-        $ convert
-        $ fromEither
-        $ parseTo 
-        $ contents ++ "\n"
+    writeFile (takeWhile (/= '.') name ++ ".md")
+        $  unlines
+        $  map unwords
+        $  convert
+        $  fromEither
+        $  parseTo
+        $  contents ++ "\n"
     hClose handle
 
 handler :: IOError -> IO ()

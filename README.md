@@ -105,7 +105,7 @@ Example:
 
 Format should be strictly followed: `【有扉者「[name]」往「[url]」也】`
 
-**Notice**: You need to use spaces to separate image block and other text or simply put it in a new line.
+**Notice**: You need to use spaces to separate URL block and other text or simply put it in a new line.
 
 ``` markdown
 【有扉者「Github」往「https://github.com」也】
