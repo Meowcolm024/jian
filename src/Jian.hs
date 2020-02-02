@@ -45,5 +45,5 @@ toMD :: Maybe JianVal -> String
 toMD (Just (Raw x      )) = x
 toMD (Just (Heading h x)) = replicate h '#' ++ " " ++ x
 toMD (Just (OrdList h x)) = show h ++ ". " ++ x
-toMD (Just (Quote x    )) = if x then "<blockquote>\n" else "\n</blockquote>"
+toMD (Just (Quote x    )) = if x then "<blockquote>" else "</blockquote>"
 toMD _                    = ""

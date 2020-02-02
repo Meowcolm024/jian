@@ -77,3 +77,17 @@ Examples:
 2. Haskell也
 3. 表之實例也
 ```
+
+## Ideas
+
+### Images
+
+``` markdown
+【有圖者‘清明上河圖’自‘zhangzeduan’來】
+<!--Euqals to-->
+![清明上河圖](zhangzeduan)
+```
+
+### Code Block
+
+Coming :)

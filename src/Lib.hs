@@ -1,5 +1,5 @@
 module Lib
-    ( someFunc
+    ( entryPoint
     )
 where
 
@@ -10,8 +10,8 @@ import           Control.Exception
 import           System.Environment
 import           Jian
 
-someFunc :: IO ()
-someFunc = getFile `catch` handler
+entryPoint :: IO ()
+entryPoint = getFile `catch` handler
 
 getFile :: IO ()
 getFile = do
