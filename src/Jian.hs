@@ -8,6 +8,8 @@ data JianVal = Heading Int String
              | OrdList Int String
              | Quote Bool
              | Raw String
+             | Comment String
+             | Image String String
              deriving (Show)
 
 toHead :: String -> Maybe JianVal
@@ -34,16 +36,26 @@ toQuote "「「" = Just $ Quote True
 toQuote "」」" = Just $ Quote False
 toQuote _    = Nothing
 
+toComment :: String -> Maybe JianVal
+toComment x = if "批：" `isPrefixOf` x then Just (Comment x) else Nothing
+
 isBlank :: String -> Maybe JianVal
 isBlank "" = Just $ Raw ""
 isBlank _  = Nothing
 
 toJian :: String -> Maybe JianVal
-toJian x = isBlank x <|> toHead x <|> toOrdList x <|> toQuote x <|> toRaw x
+toJian x =
+  isBlank x
+    <|> toHead x
+    <|> toOrdList x
+    <|> toQuote x
+    <|> toComment x
+    <|> toRaw x
 
 toMD :: Maybe JianVal -> String
 toMD (Just (Raw x      )) = x
 toMD (Just (Heading h x)) = replicate h '#' ++ " " ++ x
 toMD (Just (OrdList h x)) = show h ++ ". " ++ x
-toMD (Just (Quote x    )) = if x then "<blockquote>" else "</blockquote>"
+toMD (Just (Quote   x  )) = if x then "<blockquote>" else "</blockquote>"
+toMD (Just (Comment x  )) = "<!--" ++ x ++ "-->"
 toMD _                    = ""

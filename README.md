@@ -78,6 +78,14 @@ Examples:
 3. 表之實例也
 ```
 
+### Comments
+
+``` markdown
+批：註釋也
+<!--Euqals to-->
+<!--批：註釋也-->
+```
+
 ## Ideas
 
 ### Images
@@ -88,6 +96,6 @@ Examples:
 ![清明上河圖](zhangzeduan)
 ```
 
-### Code Block
+### URL
 
 Coming :)
