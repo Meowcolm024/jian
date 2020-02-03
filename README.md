@@ -62,7 +62,7 @@ Example:
 
 ### List
 
-Lists start with a number (in Hanzi), followed by a `、`, like `一、`
+Ordered lists start with a number (in Hanzi), followed by a `、`, like `一、`
 
 Examples:
 
@@ -74,6 +74,14 @@ Examples:
 1. 文言也
 2. Haskell也
 3. 表之實例也
+```
+
+For unordered lists, use `〇` (text should follow directly without leaving a space)
+
+``` markdown
+〇《滕王閣序》
+<!--Euqals to-->
+- 《滕王閣序》
 ```
 
 ### Comments

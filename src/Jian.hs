@@ -6,6 +6,7 @@ import           Hanzi
 
 data JianVal = Heading Int String
              | OrdList Int String
+             | UoList String
              | Quote Bool
              | Raw String
              | Comment String
@@ -28,6 +29,10 @@ toOrdList x =
   in  if all isShuzi nums
         then Just $ OrdList (shuziToInt nums) (tail content)
         else Nothing
+
+toUoList :: String -> Maybe JianVal
+toUoList "〇" = Nothing
+toUoList x   = if "〇" `isPrefixOf` x then Just (UoList (tail x)) else Nothing
 
 toRaw :: String -> Maybe JianVal
 toRaw x = Just $ Raw x
@@ -65,6 +70,7 @@ toJian x =
   isBlank x
     <|> toHead x
     <|> toOrdList x
+    <|> toUoList x
     <|> toQuote x
     <|> toComment x
     <|> toImage x
@@ -75,6 +81,7 @@ toMD :: Maybe JianVal -> String
 toMD (Just (Raw x         )) = x
 toMD (Just (Heading h x   )) = replicate h '#' ++ " " ++ x
 toMD (Just (OrdList h x   )) = show h ++ ". " ++ x
+toMD (Just (UoList  x     )) = "- " ++ x
 toMD (Just (Quote   x     )) = if x then "<blockquote>" else "</blockquote>"
 toMD (Just (Comment x     )) = "<!--" ++ x ++ "-->"
 toMD (Just (Image name url)) = "![" ++ name ++ "](" ++ url ++ ")"

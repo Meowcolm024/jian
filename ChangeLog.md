@@ -2,4 +2,4 @@
 
 ## Unreleased changes
 
-- Supported: `Heading`, `Ordered List`, `Image`, `Link`, `Comment`, `Quote`
+- Supported: `Heading`, `Ordered List`, `Unordered List`, `Image`, `Link`, `Comment`, `Quote`
