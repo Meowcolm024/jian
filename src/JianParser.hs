@@ -21,18 +21,7 @@ import           Data.Char                      ( isLetter
                                                 , isDigit
                                                 )
 import           Hanzi
-{-
-data JianVal = Heading Int String
-             | OrdList Int String
-             | UoList String
-             | Quote String
-             | Raw String
-             | Comment String
-             | Image String String
-             | Link String String
-             | Code String
-             deriving (Show)
--}
+
 regularParse :: Parser a -> String -> Either ParseError a
 regularParse p = parse p "(unknown)"
 
@@ -67,15 +56,19 @@ unordlist = do
     txt <- many1 $ noneOf "\n"
     return $ "* " ++ txt
 
-paragraph :: Parser [String]
-paragraph = many line
-  where
-    line :: Parser String
-    line = do
-        void $ many (char ' ')
-        first   <- letter <|> char ' '
-        rest    <- many (letter <|> char ' ')
-        newline <- optionMaybe $ char '\n'
-        return $ case newline of
-            Just _  -> first : rest ++ " "
-            Nothing -> first : rest
+line :: Parser String
+line = do
+    void $ many (char ' ')
+    first   <- letter <|> oneOf " ，。/；‘‘【】、《》？：““「」｜"
+    rest    <- many (letter <|> oneOf " ，。/；‘‘【】、《》？：““「」｜")
+    newline <- optionMaybe $ char '\n'
+    return $ case newline of
+        Just _  -> first : rest ++ " "
+        Nothing -> first : rest
+
+comment :: Parser String
+comment = do
+    void $ many (char ' ')
+    string "批："
+    txt <- many1 $ noneOf "\n"
+    return $ "<!--批：" ++ txt ++ "-->"
