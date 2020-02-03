@@ -57,7 +57,7 @@ toLink :: String -> Maybe JianVal
 toLink x = if "【有扉者" `isPrefixOf` x && "也】" `isSuffixOf` x
   then
     let name = tail $ (takeWhile (/= '」') . dropWhile (/= '「')) x
-        url  = (tail . tail) $ (takeWhile (/= '」') . dropWhile (/= '往')) x
+        url  = (tail . tail) $ (takeWhile (/= '」') . dropWhile (/= '通')) x
     in  Just (Link name url)
   else Nothing
 

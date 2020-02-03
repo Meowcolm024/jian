@@ -18,7 +18,7 @@ And the code is poorly written :)
 
 ## Syntax
 
-Currently supported syntax
+Currently supported syntax:
 
 ### Titles
 
@@ -86,7 +86,7 @@ For unordered lists, use `〇` (text should follow directly without leaving a sp
 
 ### Comments
 
-**Notice**: There should be spaces in the comment line (otherwise it may not work...)
+**Notice**: There should not be spaces in the comment line (otherwise it may not work...)
 
 ``` markdown
 批：註釋也
@@ -111,12 +111,12 @@ Example:
 
 ### URL
 
-Format should be strictly followed: `【有扉者「[name]」往「[url]」也】`
+Format should be strictly followed: `【有扉者「[name]」通「[url]」也】`
 
 **Notice**: You need to use spaces to separate URL block and other text or simply put it in a new line.
 
 ``` markdown
-【有扉者「Github」往「https://github.com」也】
+【有扉者「Github」通「https://github.com」也】
 <!--Euqals to-->
 [Github](https://github.com)
 ```
