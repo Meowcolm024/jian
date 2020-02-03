@@ -15,6 +15,7 @@ import           Control.Applicative            ( (<$>)
                                                 )
 import           Control.Monad                  ( void
                                                 , ap
+                                                , guard
                                                 )
 import           Data.Char                      ( isLetter
                                                 , isDigit
@@ -66,12 +67,15 @@ unordlist = do
     txt <- many1 $ noneOf "\n"
     return $ "* " ++ txt
 
-parseLine :: Parser String
-parseLine = do
-    void $ many (char ' ')
-    first   <- letter <|> char ' '
-    rest    <- many (letter <|> char ' ')
-    newline <- optionMaybe $ char '\n'
-    return $ case newline of
-        Just _  -> first : rest ++ " "
-        Nothing -> first : rest
+paragraph :: Parser [String]
+paragraph = many line
+  where
+    line :: Parser String
+    line = do
+        void $ many (char ' ')
+        first   <- letter <|> char ' '
+        rest    <- many (letter <|> char ' ')
+        newline <- optionMaybe $ char '\n'
+        return $ case newline of
+            Just _  -> first : rest ++ " "
+            Nothing -> first : rest
