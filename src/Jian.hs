@@ -1,4 +1,8 @@
-module Jian where
+module Jian
+  ( toJian
+  , toMD
+  )
+where
 
 import           Data.List
 import           Control.Applicative

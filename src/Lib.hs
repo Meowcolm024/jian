@@ -20,7 +20,7 @@ getFile = do
     hSetEncoding handle utf8
     contents <- hGetContents handle
     writeFile (takeWhile (/= '.') name ++ ".md")
-        $  unlines
+        $  init . unlines
         $  map unwords
         $  convert
         $  fromEither

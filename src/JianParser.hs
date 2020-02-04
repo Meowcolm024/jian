@@ -1,26 +1,14 @@
 module JianParser where
 
 import           Text.Parsec.String
-import           Text.ParserCombinators.Parsec
-                                         hiding ( many
-                                                , (<|>)
-                                                )
-import           Control.Applicative            ( (<$>)
-                                                , (<*>)
-                                                , (<*)
-                                                , (*>)
-                                                , (<|>)
-                                                , many
-                                                , (<$)
-                                                )
-import           Control.Monad                  ( void
-                                                , ap
-                                                , guard
-                                                )
-import           Data.Char                      ( isLetter
-                                                , isDigit
-                                                )
+import           Text.ParserCombinators.Parsec hiding (many, (<|>))
+import           Control.Applicative           ((<|>) , many)
+import           Control.Monad                 (void)
 import           Hanzi
+
+{-
+I just can't make it work ==
+-}
 
 regularParse :: Parser a -> String -> Either ParseError a
 regularParse p = parse p "(unknown)"
