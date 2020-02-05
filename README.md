@@ -2,7 +2,7 @@
 
 A prototype of a Wenyan Markdown language concept.
 
-And the code is poorly written :)
+> 希望有大佬能幫忙寫一個正式版QWQ
 
 ## Install
 
@@ -123,14 +123,10 @@ Format should be strictly followed: `【有扉者「[name]」通「[url]」也�
 
 ## Ideas
 
-### Code Block & Code
-
-No idea :(
-
-### Bold & Italic
-
-No idea :(
-
-### Table
-
-No idea :(
+| Feature    | Status                           | Reason                          |
+| :--------- | :------------------------------- | :------------------------------ |
+| Inline     | Pending                          | -                               |
+| Code Block | Pending                          | -                               |
+| Table      | Pending                          | -                               |
+| Bold       | Pending                          | -                               |
+| Italic     | <font color=red> Ignored </font> | There is no *italic* in Chinese |
