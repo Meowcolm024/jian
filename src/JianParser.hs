@@ -15,7 +15,7 @@ import           Control.Applicative            ( (<|>)
 import           Control.Monad                  ( void
                                                 , guard
                                                 )
-import Data.List (intercalate)
+import           Data.List                      ( intercalate )
 import           Hanzi
 
 {-
@@ -30,6 +30,7 @@ data JianVal = Heading Int String
              | OrdList Int String
              | UnoList String
              | Quote Bool
+             | EndOfList
             deriving (Show)
 
 regularParse :: Parser a -> String -> Either ParseError a
@@ -93,7 +94,12 @@ comment = do
     string "批："
     txt <- many1 $ noneOf "\n"
     return $ Comment txt
-    -- "<!--批：" ++ txt ++ "-->"
+
+endoflist :: Parser JianVal
+endoflist = do
+    string "【列終】"
+    choice [eof, void (char '\n')]
+    return EndOfList
 
 quote :: Parser JianVal
 quote = choice [try quote1, try quote2]
@@ -119,6 +125,7 @@ element = do
         , try unordlist
         , try ordlist
         , try quote
+        , try endoflist
         , line
         ]
     return x
@@ -140,6 +147,7 @@ toMdLine x = case x of
     Link  name url -> "[" ++ name ++ "](" ++ url ++ ")"
     Comment t      -> "<!--" ++ t ++ "-->"
     Quote   t      -> if t then "<blockquote>" else "</blockquote>"
+    EndOfList      -> ""
 
 jianToMD :: String -> String
 jianToMD x = unlines $ map toMdLine (render x)

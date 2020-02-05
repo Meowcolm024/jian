@@ -56,7 +56,7 @@ Example:
 
 ### List
 
-Ordered lists start with a number (in Hanzi), followed by a `、`, like `一、`
+Ordered lists start with a number (in Hanzi), followed by a `、`, like `一、`, and it ends with `【列終】`.
 
 Examples:
 
@@ -64,16 +64,18 @@ Examples:
 一、文言也
 二、Haskell也
 三、表之實例也
+【列終】
 <!--Euqals to-->
 1. 文言也
 2. Haskell也
 3. 表之實例也
 ```
 
-For unordered lists, use `〇` (text should follow directly without leaving a space)
+For unordered lists, use `〇` (text should follow directly without leaving a space), and it ends with `【列終】`.
 
 ``` markdown
 〇《滕王閣序》
+【列終】
 <!--Euqals to-->
 - 《滕王閣序》
 ```
