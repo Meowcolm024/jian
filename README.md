@@ -2,7 +2,7 @@
 
 A prototype of a Wenyan Markdown language concept.
 
-And the code is poorly written :)
+> 希望有大佬能幫忙寫一個正式版QWQ
 
 ## Install
 

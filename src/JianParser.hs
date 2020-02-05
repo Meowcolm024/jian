@@ -69,12 +69,7 @@ url = do
     title <- many1 $ noneOf "」"
     string "」通「"
     url <- many1 $ noneOf "」"
-    string "」也】"
-    choice [eof, void (oneOf " \n")]
-    return $ Link title url
-
-ordlist :: Parser JianVal
-ordlist = do
+    EndOfList      -> ""
     id <- many1 $ satisfy isShuzi
     char '、'
     txt <- many1 $ noneOf "\n"
