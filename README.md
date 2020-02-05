@@ -20,29 +20,23 @@ And the code is poorly written :)
 
 Currently supported syntax:
 
-### Titles
+### Headings
 
-3 levels are supported:
-
-- h1: `《[title]書》`
-- h2: `《[title]卷》`
-- h3: `《[title]篇》`
-
-Examples:
+Headings are done through indentations, and there should **NOT** be punctuations in it.
 
 ``` markdown
-《範例之書》
+史記
+  本紀
+    秦始皇本紀第六
 <!--Euqals to-->
-# 範例之書
-
-《介紹卷》
-<!--Euqals to-->
-## 介紹卷
-
-《離騷篇》
-<!--Euqals to-->
-### 離騷篇
+# 史記
+## 本紀
+### 秦始皇本紀第六
 ```
+
+### Body
+
+A paragraph should only take up **ONE** line and ends with a `。`.
 
 ### Blockquote
 
@@ -98,8 +92,7 @@ For unordered lists, use `〇` (text should follow directly without leaving a sp
 
 Format should be strictly followed: `【有圖者「[name]」自「[url]」來】`
 
-**Notice**: You need to use spaces to separate image block and other text or simply put it in a new line.
-(check out the second image in example)
+**Notice**: Should not be put inline!
 
 Example:
 
@@ -113,7 +106,7 @@ Example:
 
 Format should be strictly followed: `【有扉者「[name]」通「[url]」也】`
 
-**Notice**: You need to use spaces to separate URL block and other text or simply put it in a new line.
+**Notice**: Should not be put inline!
 
 ``` markdown
 【有扉者「Github」通「https://github.com」也】
@@ -123,14 +116,10 @@ Format should be strictly followed: `【有扉者「[name]」通「[url]」也�
 
 ## Ideas
 
-### Code Block & Code
-
-No idea :(
-
-### Bold & Italic
-
-No idea :(
-
-### Table
-
-No idea :(
+| Feature    | Status                           | Reason                          |
+| :--------- | :------------------------------- | :------------------------------ |
+| Inline     | Pending                          | -                               |
+| Code Block | Pending                          | -                               |
+| Table      | Pending                          | -                               |
+| Bold       | Pending                          | -                               |
+| Italic     | <font color=red> Ignored </font> | There is no *italic* in Chinese |

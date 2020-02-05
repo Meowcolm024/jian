@@ -1,62 +1,145 @@
-module JianParser where
+module JianParser
+    ( jianToMD
+    )
+where
 
 import           Text.Parsec.String
-import           Text.ParserCombinators.Parsec hiding (many, (<|>))
-import           Control.Applicative           ((<|>) , many)
-import           Control.Monad                 (void)
+import           Text.Parsec                    ( Parsec )
+import           Text.ParserCombinators.Parsec
+                                         hiding ( many
+                                                , (<|>)
+                                                )
+import           Control.Applicative            ( (<|>)
+                                                , many
+                                                )
+import           Control.Monad                  ( void
+                                                , guard
+                                                )
+import Data.List (intercalate)
 import           Hanzi
 
 {-
 I just can't make it work ==
 -}
 
+data JianVal = Heading Int String
+             | Body String
+             | Image String String
+             | Link String String
+             | Comment String
+             | OrdList Int String
+             | UnoList String
+             | Quote Bool
+            deriving (Show)
+
 regularParse :: Parser a -> String -> Either ParseError a
 regularParse p = parse p "(unknown)"
 
-image :: Parser String
+heading :: Parser JianVal
+heading = do
+    lv   <- optionMaybe $ many1 space
+    rest <- many1 letter
+    choice [eof, void (char '\n')]
+    return $ case lv of
+        Just lv' -> Heading (length lv' `div` 2 + 1) rest
+        Nothing  -> Heading 1 rest
+
+line :: Parser JianVal
+line = do
+    txt <- many1 $ noneOf "\n"
+    choice [eof, void (char '\n')]
+    return $ Body txt
+
+image :: Parser JianVal
 image = do
+    --void $ optionMaybe $ many1 anyToken
     string "【有圖者「"
     title <- many1 $ noneOf "」"
     string "」自「"
     url <- many1 $ noneOf "」"
     string "」來】"
-    return ("![" ++ title ++ "](" ++ url ++ ")")
+    choice [eof, void (oneOf " \n")]
+    return $ Image title url
 
-url :: Parser String
+url :: Parser JianVal
 url = do
+    --void $ optionMaybe $ many1 anyToken
     string "【有扉者「"
     title <- many1 $ noneOf "」"
     string "」通「"
     url <- many1 $ noneOf "」"
     string "」也】"
-    return $ "![" ++ title ++ "](" ++ url ++ ")"
+    choice [eof, void (oneOf " \n")]
+    return $ Link title url
 
-ordlist :: Parser String
+ordlist :: Parser JianVal
 ordlist = do
-    id <- many1 $ oneOf "零一二三四五六七八九十百千萬"
+    id <- many1 $ satisfy isShuzi
     char '、'
     txt <- many1 $ noneOf "\n"
-    return $ show (shuziToInt id) ++ txt
+    choice [eof, void (char '\n')]
+    return $ OrdList (shuziToInt id) txt
 
-unordlist :: Parser String
+unordlist :: Parser JianVal
 unordlist = do
     char '〇'
     txt <- many1 $ noneOf "\n"
-    return $ "* " ++ txt
+    choice [eof, void (char '\n')]
+    return $ UnoList txt
 
-line :: Parser String
-line = do
-    void $ many (char ' ')
-    first   <- letter <|> oneOf " ，。/；‘‘【】、《》？：““「」｜"
-    rest    <- many (letter <|> oneOf " ，。/；‘‘【】、《》？：““「」｜")
-    newline <- optionMaybe $ char '\n'
-    return $ case newline of
-        Just _  -> first : rest ++ " "
-        Nothing -> first : rest
-
-comment :: Parser String
+comment :: Parser JianVal
 comment = do
     void $ many (char ' ')
     string "批："
     txt <- many1 $ noneOf "\n"
-    return $ "<!--批：" ++ txt ++ "-->"
+    return $ Comment txt
+    -- "<!--批：" ++ txt ++ "-->"
+
+quote :: Parser JianVal
+quote = choice [try quote1, try quote2]
+  where
+    quote1 :: Parser JianVal
+    quote1 = do
+        string "「「"
+        choice [eof, void (char '\n')]
+        return $ Quote True
+    quote2 :: Parser JianVal
+    quote2 = do
+        string "」」"
+        choice [eof, void (char '\n')]
+        return $ Quote False
+
+element :: Parser [JianVal]
+element = do
+    x <- many1 $ choice
+        [ try heading
+        , try comment
+        , try image
+        , try url
+        , try unordlist
+        , try ordlist
+        , try quote
+        , line
+        ]
+    return x
+
+render :: String -> [JianVal]
+render x =
+    let out = regularParse element x
+    in  case out of
+            Right good -> good
+            _          -> []
+
+toMdLine :: JianVal -> String
+toMdLine x = case x of
+    Heading h t    -> "\n" ++ replicate h '#' ++ " " ++ t ++ "\n"
+    Body t         -> t ++ "\n"
+    OrdList h t    -> show h ++ ". " ++ t
+    UnoList t      -> "- " ++ t
+    Image name url -> "![" ++ name ++ "](" ++ url ++ ")"
+    Link  name url -> "[" ++ name ++ "](" ++ url ++ ")"
+    Comment t      -> "<!--" ++ t ++ "-->"
+    Quote   t      -> if t then "<blockquote>" else "</blockquote>"
+
+jianToMD :: String -> String
+jianToMD x = unlines $ map toMdLine (render x)
