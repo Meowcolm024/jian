@@ -1,4 +1,8 @@
-module Hanzi where
+module Hanzi
+    ( shuziToInt
+    , isShuzi
+    )
+where
 
 import           Data.List
 import qualified Data.Map                      as Map
