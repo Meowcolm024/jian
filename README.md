@@ -23,6 +23,7 @@ Currently supported syntax:
 ### Headings
 
 Headings are done through indentations, and there should **NOT** be punctuations in it.
+Every 2 indentations adds one title level.
 
 ``` markdown
 史記

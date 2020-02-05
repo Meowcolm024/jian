@@ -6,16 +6,9 @@ where
 import           Text.Parsec.String
 import           Text.Parsec                    ( Parsec )
 import           Text.ParserCombinators.Parsec
-                                         hiding ( many
-                                                , (<|>)
-                                                )
-import           Control.Applicative            ( (<|>)
-                                                , many
-                                                )
 import           Control.Monad                  ( void
                                                 , guard
                                                 )
-import           Data.List                      ( intercalate )
 import           Hanzi
 
 {-
@@ -69,7 +62,12 @@ url = do
     title <- many1 $ noneOf "」"
     string "」通「"
     url <- many1 $ noneOf "」"
-    EndOfList      -> ""
+    string "」也】"
+    choice [eof, void (oneOf " \n")]
+    return $ Link title url
+
+ordlist :: Parser JianVal
+ordlist = do
     id <- many1 $ satisfy isShuzi
     char '、'
     txt <- many1 $ noneOf "\n"
