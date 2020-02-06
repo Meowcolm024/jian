@@ -11,10 +11,6 @@ import           Control.Monad                  ( void
                                                 )
 import           Hanzi
 
-{-
-I just can't make it work ==
--}
-
 data JianVal = Heading Int String
              | Body [JianVal]
              | Line String
