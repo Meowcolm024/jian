@@ -16,14 +16,16 @@ I just can't make it work ==
 -}
 
 data JianVal = Heading Int String
-             | Body String
+             | Body [JianVal]
+             | Line String
+             | InLine String
              | Image String String
              | Link String String
              | Comment String
              | OrdList Int String
              | UnoList String
              | Quote Bool
-             | EndOfList
+             | End
             deriving (Show)
 
 regularParse :: Parser a -> String -> Either ParseError a
@@ -40,24 +42,36 @@ heading = do
 
 line :: Parser JianVal
 line = do
-    txt <- many1 $ noneOf "\n"
+    txt <- many1 $ noneOf "。\n"
+    choice [eof, void (oneOf "。\n")]
+    return $ Line $ txt ++ "。"
+
+body :: Parser JianVal
+body = do
+    txt <- many1 $ choice [try image, try url, try inline, line]
     choice [eof, void (char '\n')]
     return $ Body txt
 
+inline :: Parser JianVal
+inline = do
+    string "〔"
+    txt <- many1 $ noneOf "〕"
+    string "〕"
+    void $ optionMaybe $ choice [eof, void (oneOf " \n")]
+    return $ InLine txt
+
 image :: Parser JianVal
 image = do
-    --void $ optionMaybe $ many1 anyToken
     string "【有圖者「"
     title <- many1 $ noneOf "」"
     string "」自「"
     url <- many1 $ noneOf "」"
     string "」來】"
-    choice [eof, void (oneOf " \n")]
+    void $ optionMaybe $ choice [eof, void (oneOf " \n")]
     return $ Image title url
 
 url :: Parser JianVal
 url = do
-    --void $ optionMaybe $ many1 anyToken
     string "【有扉者「"
     title <- many1 $ noneOf "」"
     string "」通「"
@@ -88,11 +102,11 @@ comment = do
     txt <- many1 $ noneOf "\n"
     return $ Comment txt
 
-endoflist :: Parser JianVal
-endoflist = do
-    string "【列終】"
+end :: Parser JianVal
+end = do
+    choice [string "【列終】", string "【空】", string "【終了】", many1 $ oneOf " \n\t"]
     choice [eof, void (char '\n')]
-    return EndOfList
+    return End
 
 quote :: Parser JianVal
 quote = choice [try quote1, try quote2]
@@ -113,13 +127,11 @@ element = do
     x <- many1 $ choice
         [ try heading
         , try comment
-        , try image
-        , try url
         , try unordlist
         , try ordlist
         , try quote
-        , try endoflist
-        , line
+        , try end
+        , body
         ]
     return x
 
@@ -130,17 +142,24 @@ render x =
             Right good -> good
             _          -> []
 
+renderBody :: JianVal -> String
+renderBody x = case x of
+    Line t         -> t
+    Image name url -> "![" ++ name ++ "](" ++ url ++ ")\n"
+    Link  name url -> "[" ++ name ++ "](" ++ url ++ ")\n"
+    InLine t       -> "`" ++ t ++ "`"
+    _              -> ""
+
+
 toMdLine :: JianVal -> String
 toMdLine x = case x of
-    Heading h t    -> "\n" ++ replicate h '#' ++ " " ++ t ++ "\n"
-    Body t         -> t ++ "\n"
-    OrdList h t    -> show h ++ ". " ++ t
-    UnoList t      -> "- " ++ t
-    Image name url -> "![" ++ name ++ "](" ++ url ++ ")"
-    Link  name url -> "[" ++ name ++ "](" ++ url ++ ")"
-    Comment t      -> "<!--" ++ t ++ "-->"
-    Quote   t      -> if t then "<blockquote>" else "</blockquote>"
-    EndOfList      -> ""
+    Heading h t -> replicate h '#' ++ " " ++ t ++ "\n"
+    Body t      -> concatMap renderBody t ++ "\n"
+    OrdList h t -> show h ++ ". " ++ t
+    UnoList t   -> "- " ++ t
+    Comment t   -> "<!--" ++ t ++ "-->"
+    Quote   t   -> if t then "<blockquote>" else "</blockquote>\n"
+    End         -> ""
 
 jianToMD :: String -> String
 jianToMD x = unlines $ map toMdLine (render x)

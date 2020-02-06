@@ -18,13 +18,12 @@ getFile = do
     handle     <- openFile name ReadMode
     hSetEncoding handle utf8
     contents <- hGetContents handle
-    writeFile (takeWhile (/= '.') name ++ ".md")
-        $ init $ jianToMD $ contents ++ "\n"
+    writeFile (takeWhile (/= '.') name ++ ".md") $ jianToMD contents
     hClose handle
 
 handler :: IOError -> IO ()
 handler e
     | isDoesNotExistError e = case ioeGetFileName e of
         Just path -> putStrLn $ "File does not exist at: " ++ path
-        Nothing   -> putStrLn "File does not exist at"
+        Nothing   -> putStrLn "File does not exist :("
     | otherwise = ioError e
