@@ -37,7 +37,7 @@ Every 2 indentations adds one title level.
 
 ### Body
 
-A paragraph should only take up **ONE** line and ends with a `。`.
+A paragraph should only take up **ONE** line and each sentence should end with a `。`.
 
 ### Blockquote
 
@@ -95,7 +95,7 @@ For unordered lists, use `〇` (text should follow directly without leaving a sp
 
 Format should be strictly followed: `【有圖者「[name]」自「[url]」來】`
 
-**Notice**: Should not be put inline!
+**Notice**: An extra empty line is needed in order to generate a newline.
 
 Example:
 
@@ -109,7 +109,7 @@ Example:
 
 Format should be strictly followed: `【有扉者「[name]」通「[url]」也】`
 
-**Notice**: Should not be put inline!
+**Notice**: An extra empty line is needed in order to generate a newline.
 
 ``` markdown
 【有扉者「Github」通「https://github.com」也】
@@ -117,12 +117,25 @@ Format should be strictly followed: `【有扉者「[name]」通「[url]」也�
 [Github](https://github.com)
 ```
 
+### Inline
+
+Format should be strictly followed: `〔[code]〕`
+
+**Notice**: An extra empty line is needed in order to generate a newline.
+
+Example:
+
+``` markdown
+〔putStrLn "Hello"〕
+<!--Euqals to-->
+`putStrLn "Hello"`
+```
+
 ## Ideas
 
 | Feature    | Status                           | Reason                          |
 | :--------- | :------------------------------- | :------------------------------ |
-| Inline     | Pending                          | -                               |
 | Code Block | Pending                          | -                               |
 | Table      | Pending                          | -                               |
-| Bold       | Pending                          | -                               |
+| Bold       | Pending                          | ⋯⋯                               |
 | Italic     | <font color=red> Ignored </font> | There is no *italic* in Chinese |
