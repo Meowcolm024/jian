@@ -42,9 +42,9 @@ heading = do
 
 line :: Parser JianVal
 line = do
-    txt <- many1 $ noneOf "。\n"
-    choice [eof, void (oneOf "。\n")]
-    return $ Line $ txt ++ "。"
+    txt <- many1 $ noneOf "。？！：\n"
+    rest <- oneOf "。？！：\n"
+    return $ Line $ txt ++ [rest]
 
 body :: Parser JianVal
 body = do

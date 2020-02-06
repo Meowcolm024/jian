@@ -12,9 +12,10 @@ A prototype of a Wenyan Markdown language concept.
 
 ## Examples
 
-| 箋 Jian                      | Markdown                 |
-| :--------------------------- | :----------------------- |
-| [Example.jian](example.jian) | [Example.md](example.md) |
+| 箋 Jian                                 | Markdown                            |
+| :-------------------------------------- | :---------------------------------- |
+| [Example.jian](examples/example.jian)   | [Example.md](examples/example.md)   |
+| [滕王閣序.jian](examples/滕王閣序.jian) | [滕王閣序.md](examples/滕王閣序.md) |
 
 ## Syntax
 
@@ -37,7 +38,7 @@ Every 2 indentations adds one title level.
 
 ### Body
 
-A paragraph should only take up **ONE** line and each sentence should end with a `。`.
+A paragraph should only take up **ONE** line and each sentence should end with wither `。？！：`.
 
 ### Blockquote
 
@@ -137,5 +138,5 @@ Example:
 | :--------- | :------------------------------- | :------------------------------ |
 | Code Block | Pending                          | -                               |
 | Table      | Pending                          | -                               |
-| Bold       | Pending                          | ⋯⋯                               |
+| Bold       | Pending                          | ⋯⋯                              |
 | Italic     | <font color=red> Ignored </font> | There is no *italic* in Chinese |

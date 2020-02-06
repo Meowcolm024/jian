@@ -50,5 +50,5 @@
 
 ### 行内篇
 
-有Haskell码曰。`putStrLn "Hello"`乃「安好」也。
+有Haskell码曰：`putStrLn "Hello"`乃「安好」也。
 
