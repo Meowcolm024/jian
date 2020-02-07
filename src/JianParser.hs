@@ -4,11 +4,8 @@ module JianParser
 where
 
 import           Text.Parsec.String
-import           Text.Parsec                    ( Parsec )
 import           Text.ParserCombinators.Parsec
-import           Control.Monad                  ( void
-                                                , guard
-                                                )
+import           Control.Monad                  ( void )
 import           Hanzi
 
 data JianVal = Heading Int String
@@ -38,7 +35,7 @@ heading = do
 
 line :: Parser JianVal
 line = do
-    txt <- many1 $ noneOf "。？！：\n"
+    txt  <- many1 $ noneOf "。？！：\n"
     rest <- oneOf "。？！：\n"
     return $ Line $ txt ++ [rest]
 
@@ -119,17 +116,15 @@ quote = choice [try quote1, try quote2]
         return $ Quote False
 
 element :: Parser [JianVal]
-element = do
-    x <- many1 $ choice
-        [ try heading
-        , try comment
-        , try unordlist
-        , try ordlist
-        , try quote
-        , try end
-        , body
-        ]
-    return x
+element = many1 $ choice
+    [ try heading
+    , try comment
+    , try unordlist
+    , try ordlist
+    , try quote
+    , try end
+    , body
+    ]
 
 render :: String -> [JianVal]
 render x =

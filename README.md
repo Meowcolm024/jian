@@ -2,7 +2,6 @@
 
 A Wenyan Markdown language concept.
 
-
 ## Install
 
 1. Clone: `git clone https://github.com/Meowcolm024/jian.git`
@@ -133,9 +132,17 @@ Example:
 
 ## Ideas
 
-| Feature    | Status  | Reason                          |
-| :--------- | :------ | :------------------------------ |
-| Code Block | Pending | -                               |
-| Table      | Pending | -                               |
-| Bold       | Pending | -                               |
-| Italic     | Ignored | There is no *italic* in Chinese |
+| Feature        | Status | Note                                        |
+| :------------- | :----- | :------------------------------------------ |
+| Heading        | ✓      | Done through indentations                   |
+| Ordered List   | ✓      | Starts with `[數字]、` ends with `【列終】` |
+| Unordered List | ✓      | Starts with `〇`, ends with `【列終】`      |
+| Blockquote     | ✓      | Wrapped in `「「` and `」」`                |
+| Image          | ✓      | `【有圖者「[name]」自「[url]」來】`         |
+| URL            | ✓      | `【有扉者「[name]」通「[url]」也】`         |
+| Comment        | ✓      | Starts with `批：`                          |
+| Inline         | ✓      | Wrapped in `〔` and `〕`                    |
+| Code Block     | ?      | -                                           |
+| Table          | ?      | -                                           |
+| Bold           | ?      | -                                           |
+| Italic         | 𐄂     | There is no *italic* in Chinese             |
