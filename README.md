@@ -1,8 +1,7 @@
 # 箋 Jian
 
-A prototype of a Wenyan Markdown language concept.
+A Wenyan Markdown language concept.
 
-> 希望有大佬能幫忙寫一個正式版QWQ
 
 ## Install
 
@@ -38,7 +37,7 @@ Every **2** indentations adds one title level.
 
 ### Body
 
-A paragraph should only take up **ONE** line and each sentence should end with wither `。？！：`.
+A paragraph should only take up **ONE** line and each sentence should end with either `。？！：`.
 
 ### Blockquote
 
