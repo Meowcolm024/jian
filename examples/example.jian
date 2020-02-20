@@ -31,3 +31,9 @@
 超連結者，戶也，扉也，通八方，故以「扉」名之。
     行内篇
 有Haskell码曰：〔putStrLn "Hello"〕乃「安好」也。
+    代碼篇
+〔〔書以：haskell
+isShuzi :: Char -> Bool
+isShuzi x = x `elem` "零一二三四五六七八九十百千萬"
+〕〕
+此多行代碼之示例也。

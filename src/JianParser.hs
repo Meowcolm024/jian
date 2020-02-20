@@ -12,6 +12,7 @@ data JianVal = Heading Int String
              | Body [JianVal]
              | Line String
              | InLine String
+             | CodeBlock String String
              | Image String String
              | Link String String
              | Comment String
@@ -52,6 +53,15 @@ inline = do
     string "〕"
     void $ optionMaybe $ choice [eof, void (oneOf " \n")]
     return $ InLine txt
+
+codeBlock :: Parser JianVal
+codeBlock = do
+    string "〔〔書以："
+    lang <- many1 $ noneOf "\n"
+    code <- many1 $ noneOf "〕"
+    string "〕〕"
+    void $ choice [eof, void (oneOf " \n")]
+    return $ CodeBlock lang code
 
 image :: Parser JianVal
 image = do
@@ -123,6 +133,7 @@ element = many1 $ choice
     , try ordlist
     , try quote
     , try end
+    , try codeBlock
     , body
     ]
 
@@ -151,6 +162,7 @@ toMdLine x = case x of
     Comment t   -> "<!--" ++ t ++ "-->"
     Quote   t   -> if t then "<blockquote>" else "</blockquote>\n"
     End         -> ""
+    CodeBlock l c -> "``` " ++ l ++ c ++ "```\n"
 
 jianToMD :: String -> String
 jianToMD x = unlines $ map toMdLine (render x)

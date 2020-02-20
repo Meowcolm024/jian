@@ -52,3 +52,12 @@
 
 有Haskell码曰：`putStrLn "Hello"`乃「安好」也。
 
+### 代碼篇
+
+``` haskell
+isShuzi :: Char -> Bool
+isShuzi x = x `elem` "零一二三四五六七八九十百千萬"
+```
+
+此多行代碼之示例也。
+
