@@ -2,7 +2,8 @@
 
 ## Unreleased changes
 
-- Nothing
+- Added: `Code Block`
+- Changed: `Heading`, allowing the punctuation of  `·`
 
 ## 0.1.0
 

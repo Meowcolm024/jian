@@ -21,7 +21,8 @@ Currently supported syntax:
 
 ### Headings
 
-Headings are done through indentations, and there should **NOT** be punctuations in it.
+Headings are done through indentations, and there should **NOT** be punctuations in it (with the exception of `·`).
+
 Every **2** indentations adds one title level.
 
 ``` markdown
@@ -157,7 +158,7 @@ isShuzi x = x `elem` "零一二三四五六七八九十百千萬"
 | URL            | ✓      | `【有扉者「[name]」通「[url]」也】`          |
 | Comment        | ✓      | Starts with `批：`                           |
 | Inline         | ✓      | Wrapped in `〔` and `〕`                     |
-| Code Block     | ∞      | Wrapped in `〔〔書以：[language]` and `〕〕` |
+| Code Block     | 〇     | Wrapped in `〔〔書以：[language]` and `〕〕` |
 | Table          | ?      | -                                            |
 | Bold           | ?      | -                                            |
 | Italic         | 𐄂     | There is no *italic* in Chinese              |

@@ -28,7 +28,7 @@ regularParse p = parse p "(unknown)"
 heading :: Parser JianVal
 heading = do
     lv   <- optionMaybe $ many1 space
-    rest <- many1 letter
+    rest <- many1 $ choice [letter, char '·']
     choice [eof, void (char '\n')]
     return $ case lv of
         Just lv' -> Heading (length lv' `div` 2 + 1) rest
