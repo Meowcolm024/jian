@@ -71,7 +71,7 @@ Examples:
 3. 表之實例也
 ```
 
-For unordered lists, use `〇` (text should follow directly without leaving a space), and it ends with `【列終】`.
+For unordered lists, use `〇`, and it ends with `【列終】`.
 
 ``` markdown
 〇《滕王閣序》
@@ -82,7 +82,7 @@ For unordered lists, use `〇` (text should follow directly without leaving a sp
 
 ### Comments
 
-**Notice**: There should not be spaces in the comment line (otherwise it may not work...)
+Comments start with `批：`:
 
 ``` markdown
 批：註釋也
