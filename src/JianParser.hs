@@ -4,17 +4,15 @@ module JianParser
 where
 
 import           Text.Parsec.String
-import           Text.Parsec                    ( Parsec )
 import           Text.ParserCombinators.Parsec
-import           Control.Monad                  ( void
-                                                , guard
-                                                )
+import           Control.Monad                  ( void )
 import           Hanzi
 
 data JianVal = Heading Int String
              | Body [JianVal]
              | Line String
              | InLine String
+             | CodeBlock String String
              | Image String String
              | Link String String
              | Comment String
@@ -38,7 +36,7 @@ heading = do
 
 line :: Parser JianVal
 line = do
-    txt <- many1 $ noneOf "。？！：\n"
+    txt  <- many1 $ noneOf "。？！：\n"
     rest <- oneOf "。？！：\n"
     return $ Line $ txt ++ [rest]
 
@@ -55,6 +53,15 @@ inline = do
     string "〕"
     void $ optionMaybe $ choice [eof, void (oneOf " \n")]
     return $ InLine txt
+
+codeBlock :: Parser JianVal
+codeBlock = do
+    string "〔〔書以："
+    lang <- many1 $ noneOf "\n"
+    code <- many1 $ noneOf "〕"
+    string "〕〕"
+    void $ choice [eof, void (oneOf " \n")]
+    return $ CodeBlock lang code
 
 image :: Parser JianVal
 image = do
@@ -119,17 +126,16 @@ quote = choice [try quote1, try quote2]
         return $ Quote False
 
 element :: Parser [JianVal]
-element = do
-    x <- many1 $ choice
-        [ try heading
-        , try comment
-        , try unordlist
-        , try ordlist
-        , try quote
-        , try end
-        , body
-        ]
-    return x
+element = many1 $ choice
+    [ try heading
+    , try comment
+    , try unordlist
+    , try ordlist
+    , try quote
+    , try end
+    , try codeBlock
+    , body
+    ]
 
 render :: String -> [JianVal]
 render x =
@@ -156,6 +162,7 @@ toMdLine x = case x of
     Comment t   -> "<!--" ++ t ++ "-->"
     Quote   t   -> if t then "<blockquote>" else "</blockquote>\n"
     End         -> ""
+    CodeBlock l c -> "``` " ++ l ++ c ++ "```\n"
 
 jianToMD :: String -> String
 jianToMD x = unlines $ map toMdLine (render x)

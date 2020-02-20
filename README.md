@@ -1,8 +1,6 @@
 # 箋 Jian
 
-A prototype of a Wenyan Markdown language concept.
-
-> 希望有大佬能幫忙寫一個正式版QWQ
+A Wenyan Markdown language concept.
 
 ## Install
 
@@ -38,7 +36,7 @@ Every **2** indentations adds one title level.
 
 ### Body
 
-A paragraph should only take up **ONE** line and each sentence should end with wither `。？！：`.
+A paragraph should only take up **ONE** line and each sentence should end with either `。？！：`.
 
 ### Blockquote
 
@@ -73,7 +71,7 @@ Examples:
 3. 表之實例也
 ```
 
-For unordered lists, use `〇` (text should follow directly without leaving a space), and it ends with `【列終】`.
+For unordered lists, use `〇`, and it ends with `【列終】`.
 
 ``` markdown
 〇《滕王閣序》
@@ -84,7 +82,7 @@ For unordered lists, use `〇` (text should follow directly without leaving a sp
 
 ### Comments
 
-**Notice**: There should not be spaces in the comment line (otherwise it may not work...)
+Comments start with `批：`:
 
 ``` markdown
 批：註釋也
@@ -132,11 +130,34 @@ Example:
 `putStrLn "Hello"`
 ```
 
+### Code Block
+
+Code blocks are wrapped in `〔〔書以：[language]` and `〕〕`
+
+> 「書以」is not that appropriate, might be changed later.
+
+Example:
+
+``` markdown
+〔〔書以：haskell
+isShuzi :: Char -> Bool
+isShuzi x = x `elem` "零一二三四五六七八九十百千萬"
+〕〕
+```
+
 ## Ideas
 
-| Feature    | Status  | Reason                          |
-| :--------- | :------ | :------------------------------ |
-| Code Block | Pending | -                               |
-| Table      | Pending | -                               |
-| Bold       | Pending | -                               |
-| Italic     | Ignored | There is no *italic* in Chinese |
+| Feature        | Status | Note                                         |
+| :------------- | :----- | :------------------------------------------- |
+| Heading        | ✓      | Done through indentations                    |
+| Ordered List   | ✓      | Starts with `[數字]、` ends with `【列終】`  |
+| Unordered List | ✓      | Starts with `〇`, ends with `【列終】`       |
+| Blockquote     | ✓      | Wrapped in `「「` and `」」`                 |
+| Image          | ✓      | `【有圖者「[name]」自「[url]」來】`          |
+| URL            | ✓      | `【有扉者「[name]」通「[url]」也】`          |
+| Comment        | ✓      | Starts with `批：`                           |
+| Inline         | ✓      | Wrapped in `〔` and `〕`                     |
+| Code Block     | ∞      | Wrapped in `〔〔書以：[language]` and `〕〕` |
+| Table          | ?      | -                                            |
+| Bold           | ?      | -                                            |
+| Italic         | 𐄂     | There is no *italic* in Chinese              |

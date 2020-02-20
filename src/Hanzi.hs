@@ -13,6 +13,7 @@ shuzi = Map.fromList $ zip "零一二三四五六七八九十" [0 .. 10]
 wei :: Map.Map Char Int
 wei = Map.fromList $ zip "十百千萬" [10, 100, 1000, 10000]
 
+-- Only support natural numbers less then 100,000
 shuziToInt :: String -> Int
 shuziToInt x = sum $ map groupDigit $ sepBy x []  where
     groupDigit :: String -> Int
