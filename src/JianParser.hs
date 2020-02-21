@@ -8,7 +8,7 @@ import           Text.ParserCombinators.Parsec
 import           Control.Monad                  ( void )
 import           Hanzi
 
-data JianVal = Heading Int String
+data JianVal = Heading Int String  -- level context
              | Body [JianVal]
              | Line String
              | InLine String
@@ -16,8 +16,8 @@ data JianVal = Heading Int String
              | Image String String
              | Link String String
              | Comment String
-             | OrdList Int String
-             | UnoList String
+             | OrdList Int Int String  -- indents order context
+             | UnoList Int String  -- indents context
              | Quote Bool
              | End
             deriving (Show)
@@ -85,18 +85,24 @@ url = do
 
 ordlist :: Parser JianVal
 ordlist = do
+    lv <- optionMaybe $ many1 space
     id <- many1 $ satisfy isShuzi
     char '、'
     txt <- many1 $ noneOf "\n"
     choice [eof, void (char '\n')]
-    return $ OrdList (shuziToInt id) txt
+    return $ case lv of
+        Just lv' -> OrdList (length lv') (shuziToInt id) (lv' ++ txt)
+        Nothing  -> OrdList 0 (shuziToInt id) txt
 
 unordlist :: Parser JianVal
 unordlist = do
+    lv <- optionMaybe $ many1 space
     char '〇'
     txt <- many1 $ noneOf "\n"
     choice [eof, void (char '\n')]
-    return $ UnoList txt
+    return $ case lv of
+        Just lv' -> UnoList (length lv') txt
+        Nothing  -> UnoList 0 txt
 
 comment :: Parser JianVal
 comment = do
@@ -157,8 +163,8 @@ toMdLine :: JianVal -> String
 toMdLine x = case x of
     Heading h t   -> replicate h '#' ++ " " ++ t ++ "\n"
     Body t        -> concatMap renderBody t ++ "\n"
-    OrdList h t   -> show h ++ ". " ++ t
-    UnoList t     -> "- " ++ t
+    OrdList i h t -> replicate i ' ' ++ show h ++ ". " ++ t
+    UnoList i t   -> replicate i ' ' ++ "- " ++ t
     Comment t     -> "<!--" ++ t ++ "-->"
     Quote   t     -> if t then "<blockquote>" else "</blockquote>\n"
     End           -> ""

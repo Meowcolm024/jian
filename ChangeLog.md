@@ -2,10 +2,13 @@
 
 ## Unreleased changes
 
-- Added: `Code Block`
+- Added:
+  - `Code Block`
+- Fixed:
+  - fixed indentation problem of `Oreder List` and `Unordered List`.
 - Changed:
-  - `Heading`, allowing the punctuation of  `·`
-  - `Comment`, allowing to use `疏：` for comment.
+  - `Heading`: allow the punctuation of `·`
+  - `Comment`: allow to use `疏：` for comment.
 
 ## 0.1.0
 

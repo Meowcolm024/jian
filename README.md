@@ -39,7 +39,21 @@ Every **2** indentations adds one title level.
 
 A paragraph should only take up **ONE** line and each sentence should end with either `。？！：`.
 
+<blockquote>
+
 Inline elements like `Image`, `URL` and `Inline` would not be parsed when they are in a *sentecne*. So you can only add they after a punctuation mentioned above or at the start of a line.
+
+<details>
+
+Try to compare the following:
+
+For `有Haskell码曰：〔putStrLn "Hello"〕乃「安好」也。`, it will be parsed to `有Haskell码曰：`putStrLn "Hello"`乃「安好」也。`
+
+While `有Haskell码曰〔putStrLn "Hello"〕乃「安好」也。` will be parsed to `有Haskell码曰〔putStrLn "Hello"〕乃「安好」也。`
+
+Do notice there is a `：` in the first sentence separating them.
+
+</details></blockquote>
 
 ### Blockquote
 
