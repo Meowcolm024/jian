@@ -101,7 +101,7 @@ unordlist = do
 comment :: Parser JianVal
 comment = do
     void $ many (char ' ')
-    string "批："
+    choice [string "批：", string "疏："]
     txt <- many1 $ noneOf "\n"
     return $ Comment txt
 
