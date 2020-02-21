@@ -155,13 +155,13 @@ renderBody x = case x of
 
 toMdLine :: JianVal -> String
 toMdLine x = case x of
-    Heading h t -> replicate h '#' ++ " " ++ t ++ "\n"
-    Body t      -> concatMap renderBody t ++ "\n"
-    OrdList h t -> show h ++ ". " ++ t
-    UnoList t   -> "- " ++ t
-    Comment t   -> "<!--" ++ t ++ "-->"
-    Quote   t   -> if t then "<blockquote>" else "</blockquote>\n"
-    End         -> ""
+    Heading h t   -> replicate h '#' ++ " " ++ t ++ "\n"
+    Body t        -> concatMap renderBody t ++ "\n"
+    OrdList h t   -> show h ++ ". " ++ t
+    UnoList t     -> "- " ++ t
+    Comment t     -> "<!--" ++ t ++ "-->"
+    Quote   t     -> if t then "<blockquote>" else "</blockquote>\n"
+    End           -> ""
     CodeBlock l c -> "``` " ++ l ++ c ++ "```\n"
 
 jianToMD :: String -> String

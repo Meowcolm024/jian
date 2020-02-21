@@ -39,9 +39,11 @@ Every **2** indentations adds one title level.
 
 A paragraph should only take up **ONE** line and each sentence should end with either `。？！：`.
 
+Inline elements like `Image`, `URL` and `Inline` would not be parsed when they are in a *sentecne*. So you can only add they after a punctuation mentioned above or at the start of a line.
+
 ### Blockquote
 
-Starts with `「「` ends with `」」`
+Blockquotes are wrapped in `「「` and `」」`. They should be in a separate line.
 
 Example:
 
@@ -76,9 +78,11 @@ For unordered lists, use `〇`, and it ends with `【列終】`.
 
 ``` markdown
 〇《滕王閣序》
+〇《醉翁亭記》
 【列終】
 <!--Euqals to-->
 - 《滕王閣序》
+- 《醉翁亭記》
 ```
 
 ### Comments

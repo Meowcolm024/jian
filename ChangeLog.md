@@ -3,8 +3,10 @@
 ## Unreleased changes
 
 - Added: `Code Block`
-- Changed: `Heading`, allowing the punctuation of  `·`
+- Changed:
+  - `Heading`, allowing the punctuation of  `·`
+  - `Comment`, allowing to use `疏：` for comment.
 
 ## 0.1.0
 
-- Supported: `Heading`, `Ordered List`, `Unordered List`, `Image`, `Link`, `Comment`, `Quote`, `Inline`
+- Added: `Heading`, `Ordered List`, `Unordered List`, `Image`, `Link`, `Comment`, `Quote`, `Inline`
