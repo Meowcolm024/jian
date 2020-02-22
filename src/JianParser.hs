@@ -105,7 +105,7 @@ unordlist = do
         Nothing  -> UnoList 0 txt
 
 comment :: Parser JianVal
-comment = do                                -- ! Only workds in a separate line
+comment = do                                -- ! Only works in a separate line
     void $ many (char ' ')
     choice [string "批：", string "疏："]
     txt <- many1 $ noneOf "\n"
