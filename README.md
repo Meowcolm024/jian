@@ -21,7 +21,8 @@ Currently supported syntax:
 
 ### Headings
 
-Headings are done through indentations, and there should **NOT** be punctuations in it.
+Headings are done through indentations, and there should **NOT** be punctuations in it (with the exception of `·`).
+
 Every **2** indentations adds one title level.
 
 ``` markdown
@@ -38,9 +39,25 @@ Every **2** indentations adds one title level.
 
 A paragraph should only take up **ONE** line and each sentence should end with either `。？！：`.
 
+<blockquote>
+
+Inline elements like `Image`, `URL` and `Inline` would not be parsed when they are in a *sentecne*. So you can only add they after a punctuation mentioned above or at the start of a line.
+
+<details>
+
+Try to compare the following:
+
+For `有Haskell码曰：〔putStrLn "Hello"〕乃「安好」也。`, it will be parsed to `有Haskell码曰：`putStrLn "Hello"`乃「安好」也。`
+
+While `有Haskell码曰〔putStrLn "Hello"〕乃「安好」也。` will be parsed to `有Haskell码曰〔putStrLn "Hello"〕乃「安好」也。`
+
+Do notice there is a `：` in the first sentence separating them.
+
+</details></blockquote>
+
 ### Blockquote
 
-Starts with `「「` ends with `」」`
+Blockquotes are wrapped in `「「` and `」」`. They should be in a separate line.
 
 Example:
 
@@ -75,19 +92,21 @@ For unordered lists, use `〇`, and it ends with `【列終】`.
 
 ``` markdown
 〇《滕王閣序》
+〇《醉翁亭記》
 【列終】
 <!--Euqals to-->
 - 《滕王閣序》
+- 《醉翁亭記》
 ```
 
 ### Comments
 
-Comments start with `批：`:
+Comments start with `批：` or `疏：`:
 
 ``` markdown
 批：註釋也
 <!--Euqals to-->
-<!--批：註釋也-->
+<!--註釋也-->
 ```
 
 ### Images
@@ -157,7 +176,7 @@ isShuzi x = x `elem` "零一二三四五六七八九十百千萬"
 | URL            | ✓      | `【有扉者「[name]」通「[url]」也】`          |
 | Comment        | ✓      | Starts with `批：`                           |
 | Inline         | ✓      | Wrapped in `〔` and `〕`                     |
-| Code Block     | ∞      | Wrapped in `〔〔書以：[language]` and `〕〕` |
+| Code Block     | 〇     | Wrapped in `〔〔書以：[language]` and `〕〕` |
 | Table          | ?      | -                                            |
 | Bold           | ?      | -                                            |
 | Italic         | 𐄂     | There is no *italic* in Chinese              |

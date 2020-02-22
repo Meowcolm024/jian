@@ -2,8 +2,18 @@
 
 ## Unreleased changes
 
-- Nothing
+- Better CLI
+
+## 0.1.1
+
+- **Added**:
+  - `Code Block`
+- **Fixed**:
+  - fixed indentation problem of `Oreder List` and `Unordered List`.
+- **Changed**:
+  - `Heading`: allow the punctuation of `·`
+  - `Comment`: allow to use `疏：` for comment.
 
 ## 0.1.0
 
-- Supported: `Heading`, `Ordered List`, `Unordered List`, `Image`, `Link`, `Comment`, `Quote`, `Inline`
+- **Added**: `Heading`, `Ordered List`, `Unordered List`, `Image`, `Link`, `Comment`, `Quote`, `Inline`

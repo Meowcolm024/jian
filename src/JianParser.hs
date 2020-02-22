@@ -8,16 +8,16 @@ import           Text.ParserCombinators.Parsec
 import           Control.Monad                  ( void )
 import           Hanzi
 
-data JianVal = Heading Int String
+data JianVal = Heading Int String       -- level context
              | Body [JianVal]
              | Line String
              | InLine String
-             | CodeBlock String String
-             | Image String String
-             | Link String String
+             | CodeBlock String String  -- lang code
+             | Image String String      -- name url
+             | Link String String       -- name url
              | Comment String
-             | OrdList Int String
-             | UnoList String
+             | OrdList Int Int String   -- indents order context
+             | UnoList Int String       -- indents context
              | Quote Bool
              | End
             deriving (Show)
@@ -27,8 +27,8 @@ regularParse p = parse p "(unknown)"
 
 heading :: Parser JianVal
 heading = do
-    lv   <- optionMaybe $ many1 space
-    rest <- many1 letter
+    lv   <- optionMaybe $ many1 space                       -- TODO: add restrictions to how many spaces can be used
+    rest <- many1 $ choice [letter, char '·']
     choice [eof, void (char '\n')]
     return $ case lv of
         Just lv' -> Heading (length lv' `div` 2 + 1) rest
@@ -56,7 +56,7 @@ inline = do
 
 codeBlock :: Parser JianVal
 codeBlock = do
-    string "〔〔書以："
+    string "〔〔書以："                         -- TODO: 「書以」 need to be changed to a more appropriate one
     lang <- many1 $ noneOf "\n"
     code <- many1 $ noneOf "〕"
     string "〕〕"
@@ -85,23 +85,29 @@ url = do
 
 ordlist :: Parser JianVal
 ordlist = do
+    lv <- optionMaybe $ many1 space
     id <- many1 $ satisfy isShuzi
     char '、'
     txt <- many1 $ noneOf "\n"
     choice [eof, void (char '\n')]
-    return $ OrdList (shuziToInt id) txt
+    return $ case lv of
+        Just lv' -> OrdList (length lv') (shuziToInt id) (lv' ++ txt)
+        Nothing  -> OrdList 0 (shuziToInt id) txt
 
 unordlist :: Parser JianVal
 unordlist = do
+    lv <- optionMaybe $ many1 space
     char '〇'
     txt <- many1 $ noneOf "\n"
     choice [eof, void (char '\n')]
-    return $ UnoList txt
+    return $ case lv of
+        Just lv' -> UnoList (length lv') txt
+        Nothing  -> UnoList 0 txt
 
 comment :: Parser JianVal
-comment = do
+comment = do                                -- ! Only works in a separate line
     void $ many (char ' ')
-    string "批："
+    choice [string "批：", string "疏："]
     txt <- many1 $ noneOf "\n"
     return $ Comment txt
 
@@ -155,13 +161,13 @@ renderBody x = case x of
 
 toMdLine :: JianVal -> String
 toMdLine x = case x of
-    Heading h t -> replicate h '#' ++ " " ++ t ++ "\n"
-    Body t      -> concatMap renderBody t ++ "\n"
-    OrdList h t -> show h ++ ". " ++ t
-    UnoList t   -> "- " ++ t
-    Comment t   -> "<!--" ++ t ++ "-->"
-    Quote   t   -> if t then "<blockquote>" else "</blockquote>\n"
-    End         -> ""
+    Heading h t   -> replicate h '#' ++ " " ++ t ++ "\n"
+    Body t        -> concatMap renderBody t ++ "\n"
+    OrdList i h t -> replicate i ' ' ++ show h ++ ". " ++ t
+    UnoList i t   -> replicate i ' ' ++ "- " ++ t
+    Comment t     -> "<!--" ++ t ++ "-->"
+    Quote   t     -> if t then "<blockquote>" else "</blockquote>\n"
+    End           -> ""
     CodeBlock l c -> "``` " ++ l ++ c ++ "```\n"
 
 jianToMD :: String -> String
