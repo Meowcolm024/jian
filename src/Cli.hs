@@ -1,5 +1,5 @@
-module Lib
-    ( entryPoint
+module Cli
+    ( cli
     )
 where
 
@@ -9,13 +9,23 @@ import           Control.Exception
 import           System.Environment
 import           JianParser
 
-entryPoint :: IO ()
-entryPoint = getFile `catch` handler
+cli :: IO ()
+cli = getArgs >>= processArg
 
-getFile :: IO ()
-getFile = do
-    (name : _) <- getArgs
-    handle     <- openFile name ReadMode
+processArg :: [String] -> IO ()
+processArg a = if null a then help else mapM_ entry a
+
+help :: IO ()
+help = do
+    putStrLn "Usage"
+    putStrLn "  $ stack run [file]"
+
+entry :: String -> IO ()
+entry n = parseFile n `catch` handler
+
+parseFile :: String -> IO ()
+parseFile name = do
+    handle <- openFile name ReadMode
     hSetEncoding handle utf8
     contents <- hGetContents handle
     writeFile (takeWhile (/= '.') name ++ ".md") $ jianToMD contents
