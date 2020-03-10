@@ -4,6 +4,12 @@
 
 - Better CLI
 
+## 0.1.2
+
+- **Changed**:
+  - Updated CLI (added `help`)
+  - `Heading`: support punctuations: `——《》`
+
 ## 0.1.1
 
 - **Added**:

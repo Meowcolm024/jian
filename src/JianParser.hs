@@ -28,7 +28,7 @@ regularParse p = parse p "(unknown)"
 heading :: Parser JianVal
 heading = do
     lv   <- optionMaybe $ many1 space                       -- TODO: add restrictions to how many spaces can be used
-    rest <- many1 $ choice [letter, char '·']
+    rest <- many1 $ choice [letter, char '·', char '—', char '《', char '》']
     choice [eof, void (char '\n')]
     return $ case lv of
         Just lv' -> Heading (length lv' `div` 2 + 1) rest
@@ -36,8 +36,8 @@ heading = do
 
 line :: Parser JianVal
 line = do
-    txt  <- many1 $ noneOf "。？！：\n"
-    rest <- oneOf "。？！：\n"
+    txt  <- many1 $ noneOf "。？！：；\n"
+    rest <- oneOf "。？！：；\n"
     return $ Line $ txt ++ [rest]
 
 body :: Parser JianVal

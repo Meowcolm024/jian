@@ -13,12 +13,12 @@ cli :: IO ()
 cli = getArgs >>= processArg
 
 processArg :: [String] -> IO ()
-processArg a = if null a then help else mapM_ entry a
+processArg a = if null a then help else entry $ head a
 
 help :: IO ()
 help = do
     putStrLn "Usage"
-    putStrLn "  $ stack run [file]"
+    putStrLn "  stack run [file]"
 
 entry :: String -> IO ()
 entry n = parseFile n `catch` handler
