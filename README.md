@@ -103,6 +103,8 @@ For unordered lists, use `〇`, and it ends with `【列終】`.
 
 Comments start with `批：` or `疏：`:
 
+> Comments only works in a separate line i.e. a separate paragraph
+
 ``` markdown
 批：註釋也
 <!--Euqals to-->

@@ -3,6 +3,7 @@
 ## Unreleased changes
 
 - Better CLI
+- Better `Code Block`, `Inline`, `Quote` syntax
 
 ## 0.1.2
 

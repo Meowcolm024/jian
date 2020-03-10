@@ -158,7 +158,6 @@ renderBody x = case x of
     InLine t       -> "`" ++ t ++ "`"
     _              -> ""
 
-
 toMdLine :: JianVal -> String
 toMdLine x = case x of
     Heading h t   -> replicate h '#' ++ " " ++ t ++ "\n"
