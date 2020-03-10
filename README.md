@@ -21,7 +21,7 @@ Currently supported syntax:
 
 ### Headings
 
-Headings are done through indentations, and there should **NOT** be punctuations in it (with the exception of `·`).
+Headings are done through indentations. Only the following punctuations are supported: `·`, `——`, `《》`.
 
 Every **2** indentations adds one title level.
 
@@ -37,7 +37,7 @@ Every **2** indentations adds one title level.
 
 ### Body
 
-A paragraph should only take up **ONE** line and each sentence should end with either `。？！：`.
+A paragraph should only take up **ONE** line and each sentence should end with either `。？！：；`.
 
 <blockquote>
 
@@ -106,6 +106,8 @@ For unordered lists, use `〇`, and it ends with `【列終】`.
 ### Comments
 
 Comments start with `批：` or `疏：`:
+
+> Comments only works in a separate line i.e. a separate paragraph
 
 ``` markdown
 批：註釋也

@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import Cli
 
 main :: IO ()
-main = entryPoint
+main = cli
