@@ -7,6 +7,7 @@ import           Text.Parsec.String
 import           Text.ParserCombinators.Parsec
 import           Control.Monad                  ( void )
 import           Hanzi
+import           Data.Functor                   ( ($>) )
 
 data JianVal = Heading Int String       -- level context
              | Body [JianVal]
@@ -35,16 +36,13 @@ heading = do
         Nothing  -> Heading 1 rest
 
 line :: Parser JianVal
-line = do
-    txt  <- many1 $ noneOf "。？！：；\n"
-    rest <- oneOf "。？！：；\n"
-    return $ Line $ txt ++ [rest]
+line =
+    (\x y -> Line $ x ++ [y]) <$> (many1 . noneOf) "。？！：；\n" <*> oneOf "。？！：；\n"
 
 body :: Parser JianVal
-body = do
-    txt <- many1 $ choice [try image, try url, try inline, line]
-    choice [eof, void (char '\n')]
-    return $ Body txt
+body =
+    Body <$> (many1 . choice) [try image, try url, try inline, line] <* choice
+        [eof, void (char '\n')]
 
 inline :: Parser JianVal
 inline = do
@@ -105,31 +103,24 @@ unordlist = do
         Nothing  -> UnoList 0 txt
 
 comment :: Parser JianVal
-comment = do                                -- ! Only works in a separate line
-    void $ many (char ' ')
-    choice [string "批：", string "疏："]
-    txt <- many1 $ noneOf "\n"
-    return $ Comment txt
+comment =                                 -- ! Only works in a separate line
+    many (char ' ')
+        *> choice [string "批：", string "疏："]
+        *> (Comment <$> (many1 . noneOf) "\n")
 
 end :: Parser JianVal
-end = do
+end =
     choice [string "【列終】", string "【空】", string "【終了】", many1 $ oneOf " \n\t"]
-    choice [eof, void (char '\n')]
-    return End
+        *> choice [eof, void (char '\n')]
+        $> End
 
 quote :: Parser JianVal
 quote = choice [try quote1, try quote2]
   where
     quote1 :: Parser JianVal
-    quote1 = do
-        string "「「"
-        choice [eof, void (char '\n')]
-        return $ Quote True
+    quote1 = string "「「" *> choice [eof, void (char '\n')] $> Quote True
     quote2 :: Parser JianVal
-    quote2 = do
-        string "」」"
-        choice [eof, void (char '\n')]
-        return $ Quote False
+    quote2 = string "」」" *> choice [eof, void (char '\n')] $> Quote False
 
 element :: Parser [JianVal]
 element = many1 $ choice
@@ -170,4 +161,4 @@ toMdLine x = case x of
     CodeBlock l c -> "``` " ++ l ++ c ++ "```\n"
 
 jianToMD :: String -> String
-jianToMD x = unlines $ map toMdLine (render x)
+jianToMD = unlines . map toMdLine . render
