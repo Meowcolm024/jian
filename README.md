@@ -47,7 +47,11 @@ Inline elements like `Image`, `URL` and `Inline` would not be parsed when they a
 
 Try to compare the following:
 
-For `有Haskell码曰：〔putStrLn "Hello"〕乃「安好」也。`, it will be parsed to `有Haskell码曰：`putStrLn "Hello"`乃「安好」也。`
+For `有Haskell码曰：〔putStrLn "Hello"〕乃「安好」也。`, it will be parsed to:
+
+``` markdown
+有Haskell码曰：`putStrLn "Hello"`乃「安好」也。
+```
 
 While `有Haskell码曰〔putStrLn "Hello"〕乃「安好」也。` will be parsed to `有Haskell码曰〔putStrLn "Hello"〕乃「安好」也。`
 
